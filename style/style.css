@@ -1,0 +1,24 @@
+*{
+    margin: 0px 0px 0px 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body{
+    text-align:center; 
+    background-color: rgb(201, 183, 245);
+}
+#login h4{
+    padding-top: 60px;
+}
+nav {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+#aboutus h2{
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+#aboutus p{
+    padding-right: 200px;
+    padding-left: 200px;
+}

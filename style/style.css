@@ -7,12 +7,19 @@ body{
     text-align:center; 
     background-color: rgb(201, 183, 245);
 }
-#login h4{
+#headlinehome{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+#login {
     padding-top: 60px;
 }
 nav {
     padding-left: 40px;
     padding-right: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: rgb(172, 84, 254);
 }
 #aboutus h2{
     padding-top: 40px;
@@ -21,4 +28,31 @@ nav {
 #aboutus p{
     padding-right: 200px;
     padding-left: 200px;
+}
+label{
+    display: block;
+}
+#login{
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+#signin{
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+#contact h3{
+padding-bottom: 40px;
+}
+footer{
+    background-color:  rgb(172, 84, 254);
+    padding-bottom: 0%;
+}
+#logo{
+    padding-top: 100px;
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    height: 50%;
+    display: block;
+    
 }

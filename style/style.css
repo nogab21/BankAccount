@@ -7,6 +7,7 @@ body{
     text-align:center; 
     background-color: rgb(201, 183, 245);
 }
+
 #headlinehome{
     padding-top: 50px;
     padding-bottom: 50px;
@@ -15,12 +16,36 @@ body{
     padding-top: 60px;
 }
 nav {
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background-color: rgb(172, 84, 254);
+ 
+    background-color:  rgb(172, 84, 254);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+    gap: 10px;
 }
+.nav-box {
+    background-color: rgb(201, 183, 245);
+    color: black;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    margin: 5px;
+  }
+  
+  .nav-box a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .nav-box:hover {
+    transform: scale(1.05);
+  }
 #aboutus h2{
     padding-top: 40px;
     padding-bottom: 40px;
@@ -32,20 +57,37 @@ nav {
 label{
     display: block;
 }
-#login{
-    padding-top: 40px;
-    padding-bottom: 60px;
-}
-#signin{
-    padding-top: 40px;
-    padding-bottom: 40px;
-}
+
+
 #contact h3{
 padding-bottom: 40px;
 }
 footer{
     background-color:  rgb(172, 84, 254);
-    padding-bottom: 0%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    direction: rtl;
+    gap: 10px;
+}
+.footer-box{
+    background-color:rgb(201, 183, 245);
+    color: black;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    min-width: 120px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+.footer-box:hover {
+    transform: scale(1.05);
+}
+.footer-box a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
 }
 #logo{
     padding-top: 100px;
@@ -56,3 +98,33 @@ footer{
     display: block;
     
 }
+.login-box {
+    background-color:rgb(235, 222, 197);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    max-width: 300px;
+    margin: 30px auto; /* centers it horizontally */
+    text-align: center;
+    direction: rtl; /* because you’re using Hebrew */
+  }
+  .login-box input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  .login-box input[type="submit"] {
+    padding: 10px 15px;
+    background-color: #ac54fe;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  login-box input[type="submit"]:hover {
+    background-color: #9449d4;
+  }

@@ -1,47 +1,52 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     <nav>
-        <div class=" nav-box"> <a href="./index.html">דף הבית</a> </div>
-        <div class=" nav-box"><a href="./about.html">אודותינו</a></div>
-        <div class=" nav-box"><a href="./contactUs.html">צור קשר</a></div>
-        <div class=" nav-box"><a href="./logIn.html">התחבר</a></div>
+        <div class=" nav-box"> <a href="./">דף הבית</a> </div>
+        <div class=" nav-box"><a href="./about">אודותינו</a></div>
+        <div class=" nav-box"><a href="./contactUs">צור קשר</a></div>
+        <div class=" nav-box"><a href="./logIn">התחבר</a></div>
+        <div class=" nav-box"><a href="./signUp">הרשם</a></div>
     </nav>
    <h1>התחבר לחשבון הבנק שלך</h1> 
    <div id="login" class="login-box">
-        <h3>להתחבר</h3>
-        <label for=" ">שם משתמש</label>
-        <input type="text" name="user-name" placeholder="הכנס שם משתמש" minlength="2"/>
-        <label for="">סיסמה</label>
-        <input type="password" name="password" placeholder="הכנס סיסמה" minlength="5"/>
-        <input type="submit" value="התחבר">
+        <form action="/login" method="post">
+            <h3>להתחבר</h3>
+            <label for=" ">שם משתמש</label>
+            <input type="text" name="username" placeholder="הכנס שם משתמש" minlength="2"/>
+            <label for="">סיסמה</label>
+            <input type="password" name="password" placeholder="הכנס סיסמה" minlength="5"/>
+            <input type="submit" value="התחבר">
+        </form>
+        
     </div>
     
-    <div id="signin" class="login-box">
-        <h3>אין לך חשבון? תפתח!</h3>
-        <h3>הרשם:</h3>
-        <label for=" ">אימייל</label>
-        <input type="email" name="email" placeholder="הכנס אימייל" />
-        <label for=" ">בחר שם משתמש</label>
-        <input type="text" name="user-name" placeholder="הכנס שם משתמש" minlength="2"/>
-        <label for="">בחר סיסמה</label>
-        <input type="password" name="password" placeholder=" הכנס סיסמה שיצרת" minlength="5"/>  
-        <input type="submit" value="הרשם">
-
-    </div>
+    
     <footer>
-        <div class="footer-box"> <p>עקבו אחרינו  באינסטגרם: @barkannoga</p></div>
-        <div class="footer-box"><p>לחיוג: 012356789</p></div>
-        <div class="footer-box"><a href="./index.html">דף הבית</a> </div>
-        <div class="footer-box"><a href="./about.html">אודותינו</a> </div>
-        <div class="footer-box"><a href="./contactUs.html">צור קשר</a> </div>
-        <div class="footer-box"><a href="./logIn.html">התחבר</a> </div>
-        </footer>
+        <div class="footer-column">
+            <h3>עקבו אחרינו</h3>
+            <p>לחיוג: 012356789</p>
+            <p>אינסטגרם: barkannoga</p>
+            <p>אימייל: kept@biond.mind</p>
+
+          </div>
+        
+          <div class="footer-column">
+            <h3>ניווט מהיר</h3>
+            <ul>
+              <ul><a href="./index">דף הבית</a></ul>
+              <ul><a href="./about">אודותינו</a></ul>
+              <ul><a href="./contactUs">צור קשר</a></ul>
+              <ul><a href="./logIn">התחבר</a></ul>
+              <ul><a href="./signUp">הרשם</a></ul>
+            </ul>
+          </div>
+    </footer>
 </body>
 </html>

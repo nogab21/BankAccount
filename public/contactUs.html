@@ -1,36 +1,55 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     <nav>
-        <div class=" nav-box"> <a href="./index.html">דף הבית</a> </div>
-        <div class=" nav-box"><a href="./about.html">אודותינו</a></div>
-        <div class=" nav-box"><a href="./contactUs.html">צור קשר</a></div>
-        <div class=" nav-box"><a href="./logIn.html">התחבר</a></div>
+        <div class=" nav-box"> <a href="./">דף הבית</a> </div>
+        <div class=" nav-box"><a href="./about">אודותינו</a></div>
+        <div class=" nav-box"><a href="./contactUs">צור קשר</a></div>
+        <div class=" nav-box"><a href="./logIn">התחבר</a></div>
+        <div class=" nav-box"><a href="./signUp">הרשם</a></div>
   </nav>
   <div id="contact" class="login-box">
-     <h2>רוצים ליצור איתנו קשר?</h2>
+    <form action="contactus" method="post">
+        <h2>רוצים ליצור איתנו קשר?</h2>
      <h3>תשאירו פרטים ונפנה אליכם בהקדם</h3>
      <label for=" ">שם פרטי</label>
-     <input type="text" name="first-name" placeholder="הכנס שם פרטי" maxlength="10"/>
+     <input type="text" name="firstName" placeholder="הכנס שם פרטי" />
      <label for="">שם משפחה</label>
-     <input type="text" name="second-name" placeholder="הכנס שם משפחה"/>
+     <input type="text" name="secondName" placeholder="הכנס שם משפחה"/>
      <label for="">מייל </label>
-     <input type="email" name="e-mail" placeholder="הכנס אי מייל"/>
+     <input type="email" name="eMail" placeholder="הכנס אי מייל"/>
+     <label for="">הודעה</label>
+     <input type="text" name="message" placeholder="כתבו את המסר שלכם אלינו"/>
+     <input type="submit" value="שלח את הפרטים כדי שנחזור אליך בהקדם">
+    </form>
+     
   </div>
   <footer>
-    <div class="footer-box"> <p>עקבו אחרינו  באינסטגרם: @barkannoga</p></div>
-    <div class="footer-box"><p>לחיוג: 012356789</p></div>
-    <div class="footer-box"><a href="./index.html">דף הבית</a> </div>
-    <div class="footer-box"><a href="./about.html">אודותינו</a> </div>
-    <div class="footer-box"><a href="./contactUs.html">צור קשר</a> </div>
-    <div class="footer-box"><a href="./logIn.html">התחבר</a> </div>
-    </footer>
+    <div class="footer-column">
+        <h3>עקבו אחרינו</h3>
+        <p>לחיוג: 012356789</p>
+        <p>אינסטגרם: barkannoga</p>
+        <p>אימייל: kept@biond.mind</p>
+
+      </div>
+    
+      <div class="footer-column">
+        <h3>ניווט מהיר</h3>
+        <ul>
+          <ul><a href="./index">דף הבית</a></ul>
+          <ul><a href="./about">אודותינו</a></ul>
+          <ul><a href="./contactUs">צור קשר</a></ul>
+          <ul><a href="./logIn">התחבר</a></ul>
+          <ul><a href="./signUp">הרשם</a></ul>
+        </ul>
+      </div>
+</footer>
 
 </body>
 </html>

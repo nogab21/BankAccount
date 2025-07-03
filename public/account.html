@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
+    <link rel="stylesheet" href="account.css">
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
   <title>החשבון שלי</title>
 </head>
 <body>
 
     <h1>ברוך הבא, <span id="username"></span>!</h1>
+    <form action="/logout" method="POST" class="logout-button">
+        <button type="submit">התנתקות</button>
+      </form>
     <h2>יתרה נוכחית: <span id="balance">₪0</span></h2>
-    <p>אימייל: <span id="email"></span></p>
+    <p id="emailContainer">אימייל: <span id="email"></span></p>
+
+<!-- כפתור לפתיחת הטופס -->
+<button id="toggleUpdateForm">שינוי פרטי משתמש</button>
+
+<!-- טופס לעדכון פרטים (מוסתר בהתחלה) -->
+<div id="updateFormContainer" hidden>
+  <form id="updateForm">
+    <label for="newUsername">שם משתמש חדש:</label>
+    <input type="text" id="newUsername" name="newUsername" placeholder="שם משתמש חדש">
+
+    <label for="newPassword">סיסמה חדשה:</label>
+    <input type="password" id="newPassword" name="newPassword" placeholder="סיסמה חדשה">
+
+    <button type="submit">עדכן</button>
+  </form>
+</div>
 
   <hr>
 
@@ -47,6 +68,7 @@
       <th>סוג</th>
       <th>תיאור</th>
       <th>תאריך</th>
+      <th>יתרה לאחר פעולה</th>
     </tr>
   </thead>
   <tbody>
@@ -55,9 +77,16 @@
 </table>
 
 <script>
-    // כאן כל הקוד שכרגע כתבת עם document.getElementById ו fetch
-    // לדוגמה:
-
+    // פונקציה לעיצוב תאריך לפורמט DD.MM.YY בעברית
+    function formatDateToHeb(dateString) {
+      const d = new Date(dateString);
+      const day = d.getDate().toString().padStart(2, '0');
+      const month = (d.getMonth() + 1).toString().padStart(2, '0');
+      const year = d.getFullYear().toString().slice(-2);
+      return `${day}.${month}.${year}`;
+    }
+  
+    // טעינת פרטי המשתמש (שם, אימייל, יתרה)
     fetch('/api/userData')
       .then(res => res.json())
       .then(data => {
@@ -70,57 +99,96 @@
         document.getElementById('email').textContent = data.email;
         document.getElementById('balance').textContent = `₪${data.balance.toFixed(2)}`;
       });
-
+  
+    // שליחת פעולה של הוספה או הורדה
     document.getElementById('transactionForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-
+  
       const amount = parseFloat(document.getElementById('amount').value);
       const type = document.getElementById('type').value;
       const description = document.getElementById('description').value;
-
+  
       if (isNaN(amount) || amount <= 0) {
         alert("אנא הכנס סכום חוקי");
         return;
       }
-
+  
       const response = await fetch('/api/transaction', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount, type, description })
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok) {
         document.getElementById('balance').textContent = `₪${result.balance.toFixed(2)}`;
         document.getElementById('amount').value = '';
         document.getElementById('description').value = '';
-        loadTransactions();
+        loadTransactions(); // טען פעולות חדשות
       } else {
         alert(result.error || "שגיאה בעדכון החשבון");
       }
     });
-
+  
+    // טוען את רשימת הפעולות האחרונות עם הוספת עמודת יתרה לאחר פעולה
     async function loadTransactions() {
       const res = await fetch('/api/transactions');
       const data = await res.json();
-
+  
       const tbody = document.querySelector('#transactionsTable tbody');
       tbody.innerHTML = '';
-
+  
       data.forEach(row => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>₪${row.amount.toFixed(2)}</td>
           <td>${row.type === 'income' ? 'הכנסה' : 'הוצאה'}</td>
           <td>${row.description}</td>
-          <td>${new Date(row.date).toLocaleString()}</td>
+          <td>${formatDateToHeb(row.date)}</td>
+          <td>₪${row.balanceAfter ? row.balanceAfter.toFixed(2) : '---'}</td>
         `;
         tbody.appendChild(tr);
       });
     }
-
+  
     loadTransactions();
+  
+    // הצגת/הסתרת טופס שינוי שם משתמש/סיסמה
+    document.getElementById('toggleUpdateForm').addEventListener('click', () => {
+      const form = document.getElementById('updateFormContainer');
+      form.hidden = !form.hidden;
+    });
+  
+    // שליחת טופס עדכון פרטי משתמש
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const newUsername = document.getElementById('newUsername').value.trim();
+      const newPassword = document.getElementById('newPassword').value.trim();
+  
+      if (!newUsername && !newPassword) {
+        alert("אנא מלא לפחות שדה אחד");
+        return;
+      }
+  
+      const response = await fetch('/api/updateUser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newUsername, newPassword })
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert("הפרטים עודכנו בהצלחה!");
+        location.reload();
+      } else {
+        alert(result.error || "שגיאה בעדכון הפרטים");
+      }
+    });
   </script>
+  
+    
 </body>
 </html>

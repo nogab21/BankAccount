@@ -2,6 +2,7 @@
 <html lang="he" dir= "rtl">
 <head>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -19,10 +20,42 @@
             <h1>ברוך הבא לבנק "נשמר מעבר לדמיון" -נמ"ל</h1>
             <h3>הבנק היחיד שמאפשר לך לשמור ולעקוב אחרי ההוצאות וההכנסות שלך גם מבלי לשמור בו כסף</h3>
         </div>
+
+        <section class="carousel">
+            <div class="carousel-slide active">נהל את הכסף שלך בקלות ובפשטות</div>
+            <div class="carousel-slide">עקוב אחרי הוצאות בזמן אמת</div>
+            <div class="carousel-slide">קבל שליטה כלכלית - מהיום</div>
+        </section>
+          
+          
         
         <div id="logo" >
             <img src="kept biond mind logo.png" alt="logo">
         </div>
+
+        <section class="features">
+            <h2 class="features-title">למה דווקא נמ"ל?</h2>
+          
+            <div class="features-container">
+              <div class="feature-box">
+                <h3>ללא צורך בהפקדה</h3>
+                <p>אפשר לנהל הכנסות והוצאות בלי לשמור כסף בבנק</p>
+              </div>
+          
+              <div class="feature-box">
+                <h3>ניהול חכם ונוח</h3>
+                <p>עקוב אחרי ההוצאות וההכנסות שלך בזמן אמת</p>
+              </div>
+          
+              <div class="feature-box">
+                <h3>ללא עמלות</h3>
+                <p>השירות חינמי לחלוטין וללא התחייבות</p>
+              </div>
+            </div>
+        </section>
+          
+          
+          
         
         <div id="login" class="login-box">
             <h3>להתחבר</h3>
@@ -55,5 +88,16 @@
             </ul>
           </div>
     </footer>
+    <script>
+        const slides = document.querySelectorAll('.carousel-slide');
+        let currentIndex = 0;
+      
+        setInterval(() => {
+          slides[currentIndex].classList.remove('active');
+          currentIndex = (currentIndex + 1) % slides.length;
+          slides[currentIndex].classList.add('active');
+        }, 4000); // כל 4 שניות
+    </script>
+      
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -15,7 +16,7 @@
         <div class=" nav-box"><a href="./signUp">הרשם</a></div>
   </nav>
   <div id="contact" class="login-box">
-    <form action="contactus" method="post">
+    <form id="contactForm">
         <h2>רוצים ליצור איתנו קשר?</h2>
      <h3>תשאירו פרטים ונפנה אליכם בהקדם</h3>
      <label for=" ">שם פרטי</label>
@@ -50,6 +51,45 @@
         </ul>
       </div>
 </footer>
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
+  const form = e.target;
+  const data = {
+    firstName: form.firstName.value,
+    secondName: form.secondName.value,
+    eMail: form.eMail.value,
+    message: form.message.value
+  };
+
+  try {
+    const res = await fetch('/contactUs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'  // 🔑 חשוב מאוד
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.error || "אירעה שגיאה לא ידועה");
+      return;
+    }
+
+    const result = await res.json(); // 🔄 שינינו מ־text ל־json
+    alert(result.message);
+    form.reset();
+
+  } catch (err) {
+    alert("אירעה שגיאה בשליחה");
+    console.error(err);
+  }
+});
+
+ 
+</script>
 </body>
 </html>

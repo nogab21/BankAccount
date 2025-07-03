@@ -51,13 +51,26 @@ app.post("/contactUs", (req, res) => {
         function (err) {
             if (err) {
                 console.error("Error inserting into database:", err.message);
-                res.status(500).send("אירעה שגיאה בשמירת פרטיך");
+
+                // תשובה מיוחדת ל־fetch
+                if (req.headers.accept === 'application/json') {
+                    return res.status(500).json({ error: "אירעה שגיאה בשמירת פרטיך" });
+                } else {
+                    return res.status(500).send("אירעה שגיאה בשמירת פרטיך");
+                }
             } else {
-                res.send("פרטיך נשמרו בהצלחה, נחזור אליך בהקדם");
+                // תשובה מיוחדת ל־fetch
+                if (req.headers.accept === 'application/json') {
+                    return res.json({ message: "פרטיך נשמרו בהצלחה! נחזור אליך בהקדם." });
+                } else {
+                    return res.send("פרטיך נשמרו בהצלחה!"); // זו התגובה שאת רואה על כל המסך
+                }
             }
         }
     );
 });
+
+
 
 // הרשמה
 app.post("/signUp", (req, res) => {
@@ -144,13 +157,13 @@ app.get("/account", (req, res) => {
   });
   
 
-app.get('/api/transactions', (req, res) => {
+  app.get('/api/transactions', (req, res) => {
     if (!req.session.user) return res.status(401).json({ error: 'משתמש לא מחובר' });
   
     const userId = req.session.user.id;
   
     db.all(
-      'SELECT amount, type, description, date FROM transactions WHERE userId = ? ORDER BY date DESC LIMIT 10',
+      'SELECT amount, type, description, date, balanceAfter FROM transactions WHERE userId = ? ORDER BY date DESC LIMIT 10',
       [userId],
       (err, rows) => {
         if (err) return res.status(500).json({ error: 'שגיאה בשליפת הפעולות' });
@@ -174,34 +187,86 @@ app.get('/api/transactions', (req, res) => {
   
     const signedAmount = type === 'income' ? amount : -amount;
   
+    // עדכון היתרה בטבלת users
     db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [signedAmount, userId], function (err) {
       if (err) return res.status(500).json({ error: 'שגיאה בעדכון היתרה' });
   
-      // הוספת הפעולה לטבלת transactions
-      db.run(
-        'INSERT INTO transactions (userId, amount, type, description) VALUES (?, ?, ?, ?)',
-        [userId, amount, type, description || 'ללא תיאור'],
-        function (err2) {
-          if (err2) return res.status(500).json({ error: 'שגיאה בשמירת הפעולה' });
+      // אחרי העדכון, משיגים את היתרה המעודכנת
+      db.get('SELECT balance FROM users WHERE id = ?', [userId], (err3, row) => {
+        if (err3) return res.status(500).json({ error: 'שגיאה במסד הנתונים' });
   
-          // החזרת היתרה החדשה
-          db.get('SELECT balance FROM users WHERE id = ?', [userId], (err3, row) => {
-            if (err3) return res.status(500).json({ error: 'שגיאה במסד הנתונים' });
-            res.json({ balance: row.balance });
-          });
-        }
-      );
+        const newBalance = row.balance;
+  
+        // שמירת הפעולה בטבלת transactions כולל היתרה אחרי הפעולה
+        db.run(
+          'INSERT INTO transactions (userId, amount, type, description, balanceAfter) VALUES (?, ?, ?, ?, ?)',
+          [userId, amount, type, description || 'ללא תיאור', newBalance],
+          function (err2) {
+            if (err2) return res.status(500).json({ error: 'שגיאה בשמירת הפעולה' });
+  
+            // מחזירים ללקוח את היתרה המעודכנת
+            res.json({ balance: newBalance });
+          }
+        );
+      });
     });
   });
   
-app.get("/logout", (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            return res.send("שגיאה בהתנתקות");
+
+  app.post('/api/updateUser', (req, res) => {
+    if (!req.session.user) return res.status(401).json({ error: 'משתמש לא מחובר' });
+  
+    const userId = req.session.user.id;
+    const { newUsername, newPassword } = req.body;
+  
+    if (!newUsername && !newPassword) {
+      return res.status(400).json({ error: 'לא נשלח מידע לעדכון' });
+    }
+  
+    const updates = [];
+    const params = [];
+  
+    if (newUsername) {
+      updates.push('username = ?');
+      params.push(newUsername);
+    }
+  
+    if (newPassword) {
+      updates.push('password = ?');
+      params.push(newPassword);
+    }
+  
+    params.push(userId);
+  
+    const query = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
+  
+    db.run(query, params, function (err) {
+      if (err) {
+        if (err.message.includes("UNIQUE constraint failed")) {
+          return res.status(400).json({ error: 'שם המשתמש כבר קיים' });
         }
-        res.redirect("/login");
+        return res.status(500).json({ error: 'שגיאה בעדכון המשתמש' });
+      }
+  
+      // עדכון הסשן אם שונה שם משתמש
+      if (newUsername) req.session.user.username = newUsername;
+  
+      res.json({ success: true });
     });
-});
+  });
+  
+  
+  app.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+      if (err) {
+        console.error("שגיאה בהתנתקות:", err);
+        return res.redirect('/account'); // או עמוד אחר אם תרצי
+      }
+      res.clearCookie('connect.sid');
+      res.redirect('/'); // חזרה לדף הבית
+    });
+  });
+  
 
 // הפעלת השרת
 app.listen(PORT, () => {

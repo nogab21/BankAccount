@@ -7,20 +7,20 @@ const { db, db2 } = require('./server/db/db');
 const app = express();
 const PORT = 1708;
 
-// הגדרות בסיסיות
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "style")));
 app.use(express.static(path.join(__dirname, "images")));
 
-// ניהול session (לא מצפין סיסמאות!)
+
 app.use(session({
     secret: 'bank-secret-key',
     resave: false,
     saveUninitialized: false
 }));
 
-// דפי HTML
+
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });

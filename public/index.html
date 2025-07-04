@@ -58,13 +58,15 @@
           
         
         <div id="login" class="login-box">
-            <h3>להתחבר</h3>
-            <label for=" ">שם משתמש</label>
-            <input type="text" name="user-name" placeholder="הכנס שם משתמש" minlength="2"/>
-            <label for="">סיסמה</label>
-            <input type="password" name="password" placeholder="הכנס סיסמה" minlength="5"/>
-            <input type="submit" value="התחבר">
-           
+            <form action="/login" method="post">
+                <h3>להתחבר</h3>
+                <label for=" ">שם משתמש</label>
+                <input type="text" name="username" placeholder="הכנס שם משתמש" minlength="2"/>
+                <label for="">סיסמה</label>
+                <input type="password" name="password" placeholder="הכנס סיסמה" minlength="5"/>
+                <input type="submit" value="התחבר">
+            </form>
+            
         </div>
     </main>
 
@@ -96,7 +98,7 @@
           slides[currentIndex].classList.remove('active');
           currentIndex = (currentIndex + 1) % slides.length;
           slides[currentIndex].classList.add('active');
-        }, 4000); // כל 4 שניות
+        }, 4000); 
     </script>
       
 </body>

@@ -4,9 +4,9 @@ const path = require("path");
 const db = new sqlite3.Database(path.join(__dirname, "users.db"));
 const db2 = new sqlite3.Database(path.join(__dirname, "contact.db"));
 
-console.log("db.js loaded");
 
-// טבלת משתמשים
+
+
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +17,7 @@ db.serialize(() => {
   )`);
 });
 
-// טבלת צור קשר
+
 db2.serialize(() => {
   db2.run(`CREATE TABLE IF NOT EXISTS contact (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,7 +28,6 @@ db2.serialize(() => {
   )`);
 });
 
-// מחיקת הטבלה הקודמת ויצירה מחדש עם balanceAfter
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

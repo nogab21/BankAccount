@@ -68,7 +68,7 @@
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'  // 🔑 חשוב מאוד
+        'Accept': 'application/json' 
       },
       body: JSON.stringify(data)
     });
@@ -79,7 +79,7 @@
       return;
     }
 
-    const result = await res.json(); // 🔄 שינינו מ־text ל־json
+    const result = await res.json(); 
     alert(result.message);
     form.reset();
 
